@@ -286,6 +286,16 @@
     window.__demoReservations.push(demande);
     console.info('[DÉMO] Nouvelle demande de RDV → dashboard admin :', demande);
 
+    // Passerelle vers /admin : la demande est déposée dans une petite file
+    // que le tableau de bord relève toutes les deux secondes. C'est ce qui
+    // permet de montrer la demande arriver en direct pendant une réunion.
+    try {
+      var file = JSON.parse(localStorage.getItem('be_reservations') || '[]');
+      if (!Array.isArray(file)) file = [];
+      file.push(demande);
+      localStorage.setItem('be_reservations', JSON.stringify(file));
+    } catch (e) { /* stockage indisponible : la démo reste utilisable */ }
+
     // Panneau de confirmation
     var prenom = demande.nom.split(/\s+/)[0];
     document.getElementById('successRef').textContent = 'Demande n° ' + demande.ref;

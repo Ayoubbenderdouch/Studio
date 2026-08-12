@@ -24,7 +24,35 @@ css/style.css       styles, jetons de marque, animations
 js/main.js          menu, révélations au défilement, ruban, vidéo, formulaire
 images/             7 photos + logo vectoriel — voir images/README.txt
 videos/             hero-loop.mp4 (fond de l'arche du hero)
+admin/              espace gérante (démo) — voir plus bas
 ```
+
+## L'espace gérante — `/admin/`
+
+Tableau de bord de démonstration, même charte, mêmes contraintes : ni serveur,
+ni base, ni compilation. `gerante@bestudio.dz` est pré-rempli, **n'importe quel
+mot de passe ouvre la session** (mise en scène assumée).
+
+Cinq vues : tableau de bord (indicateurs, graphique 7 jours, séances du jour),
+réservations (le cœur), planning de la semaine, membres, paiements.
+
+Trois choses à montrer en réunion :
+
+1. **Le cycle réel.** Une demande arrive avec le statut « En attente d'appel ».
+   La gérante appelle, puis clique « Confirmer » : le badge, les compteurs de
+   filtres, la pastille de la barre latérale et l'indicateur « À appeler » se
+   recalculent d'un coup, et une notification confirme l'action.
+2. **Une demande qui tombe en direct.** Une arrive d'elle-même 25 à 40 secondes
+   après l'ouverture. Le bouton `+ Simuler une réservation` ou la touche `N` en
+   déclenchent une à volonté.
+3. **La passerelle avec le site.** Le site dans un onglet, `/admin/` dans un
+   autre : une réservation envoyée depuis le formulaire public apparaît dans le
+   tableau de bord en moins de deux secondes. Elle transite par `localStorage`,
+   donc **les deux pages doivent être servies depuis la même origine** — c'est
+   le cas ici, `/` et `/admin/` partagent le même domaine.
+
+Les données sont générées à chaque chargement, relativement à l'heure courante :
+la démo paraît toujours fraîche. Un rafraîchissement remet tout à zéro.
 
 HTML, CSS et JavaScript natifs. Pas de framework, pas de npm, pas d'étape de
 compilation. Polices : Fraunces + Jost (Google Fonts).

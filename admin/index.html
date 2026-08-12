@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>be. Studio Pilates — Espace gérante</title>
+<meta name="description" content="Tableau de bord de démonstration du studio be. — réservations, planning, membres et paiements.">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#35080C">
+
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%234D0E13'/%3E%3Ccircle cx='24' cy='19' r='5.5' fill='%23C8A49F'/%3E%3Cpath d='M46 12 C 34 24, 42 34, 28 47 C 22 53, 20 56, 24 60' fill='none' stroke='%23D8C4AC' stroke-width='4' stroke-linecap='round'/%3E%3C/svg%3E">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- ================= ÉCRAN DE CONNEXION ================= -->
+<div class="login" id="login">
+  <div class="login-card">
+    <img class="login-logo" src="../images/logo-burgundy.svg" alt="be. Studio Pilates">
+    <h1 class="login-title">Espace gérante</h1>
+
+    <form id="loginForm" novalidate>
+      <label class="field">
+        <span>Email</span>
+        <input type="email" id="loginEmail" value="gerante@bestudio.dz" autocomplete="username">
+      </label>
+      <label class="field">
+        <span>Mot de passe</span>
+        <input type="password" id="loginPass" value="pilates2026" autocomplete="current-password">
+      </label>
+      <button type="submit" class="btn btn-wine btn-block">Se connecter</button>
+    </form>
+
+    <p class="login-note">Accès réservé à l’équipe du studio.</p>
+  </div>
+</div>
+
+<!-- ================= APPLICATION ================= -->
+<div class="app" id="app" hidden>
+
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <!-- ---------- Barre latérale ---------- -->
+  <aside class="sidebar" id="sidebar">
+    <a class="sidebar-logo" href="#dashboard">
+      <img src="../images/logo.svg" alt="be. Studio Pilates">
+    </a>
+
+    <nav class="nav" aria-label="Navigation principale">
+      <a class="nav-item" href="#dashboard" data-view="dashboard">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="6" cy="7" r="2.2"/><path d="M4 19 C 10 19, 11 9, 20 9"/></svg>
+        <span>Tableau de bord</span>
+      </a>
+      <a class="nav-item" href="#reservations" data-view="reservations">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="18" cy="6" r="2.2"/><path d="M5 5 C 5 14, 10 19, 19 19"/></svg>
+        <span>Réservations</span>
+        <i class="nav-badge" id="navBadge">0</i>
+      </a>
+      <a class="nav-item" href="#planning" data-view="planning">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="6" cy="5" r="2.2"/><path d="M4 11 C 9 11, 15 11, 20 11 M4 17 C 9 17, 15 17, 20 17"/></svg>
+        <span>Planning</span>
+      </a>
+      <a class="nav-item" href="#membres" data-view="membres">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="5.5" r="2.2"/><path d="M17 4 C 13 8, 15 12, 11 15 C 8 17, 6 19, 8 21"/></svg>
+        <span>Membres</span>
+      </a>
+      <a class="nav-item" href="#paiements" data-view="paiements">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="15" cy="9" r="2.2"/><path d="M19 6 C 12 4, 5 8, 5 13 C 5 18, 12 20, 18 17"/></svg>
+        <span>Paiements</span>
+      </a>
+    </nav>
+
+    <div class="sidebar-foot">
+      <a class="sidebar-link" href="../index.html">← Voir le site</a>
+      <button class="sidebar-link" id="logoutBtn" type="button">Déconnexion</button>
+      <div class="admin-chip">
+        <span class="avatar">N</span>
+        <span class="admin-meta"><strong>Nadia B.</strong><em>Gérante</em></span>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ---------- Zone principale ---------- -->
+  <div class="main">
+
+    <header class="topbar">
+      <button class="burger" id="burger" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="sidebar">
+        <span></span><span></span><span></span>
+      </button>
+
+      <h1 class="page-title" id="pageTitle">Tableau de bord</h1>
+
+      <div class="topbar-tools">
+        <div class="search">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.2"/><path d="M15.6 15.6 L20 20"/></svg>
+          <input type="search" id="search" placeholder="Rechercher…" aria-label="Rechercher dans la vue">
+        </div>
+
+        <button class="btn btn-ghost btn-sim" id="simBtn" type="button">
+          <span aria-hidden="true">+</span> Simuler une réservation
+        </button>
+
+        <button class="bell" id="bell" type="button" aria-label="Notifications">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="4.5" r="1.6"/><path d="M6 17 C 6 11, 7 7, 12 7 C 17 7, 18 11, 18 17 L 19.5 17 L 4.5 17 Z M10 20 C 10.6 21.2, 13.4 21.2, 14 20"/></svg>
+          <i class="bell-badge" id="bellBadge">0</i>
+        </button>
+
+        <span class="today" id="today"></span>
+      </div>
+    </header>
+
+    <main class="content" id="content">
+
+      <!-- ========== 5a. Tableau de bord ========== -->
+      <section class="view" id="view-dashboard">
+        <div class="kpis" id="kpis"></div>
+
+        <div class="grid-2">
+          <article class="card">
+            <header class="card-head">
+              <h2>Réservations — 7 derniers jours</h2>
+            </header>
+            <div class="chart" id="chart"></div>
+          </article>
+
+          <article class="card">
+            <header class="card-head">
+              <h2>Aujourd’hui</h2>
+              <span class="card-sub" id="todayCount"></span>
+            </header>
+            <div id="todayClasses"></div>
+          </article>
+        </div>
+
+        <article class="card">
+          <header class="card-head">
+            <h2>Dernières demandes</h2>
+            <a class="card-link" href="#reservations">Tout voir →</a>
+          </header>
+          <div id="latest"></div>
+        </article>
+      </section>
+
+      <!-- ========== 5b. Réservations ========== -->
+      <section class="view" id="view-reservations" hidden>
+        <div class="chips" id="statusChips"></div>
+        <article class="card card-flush">
+          <div id="reservationsList"></div>
+        </article>
+      </section>
+
+      <!-- ========== 5c. Planning ========== -->
+      <section class="view" id="view-planning" hidden>
+        <article class="card card-flush">
+          <div class="planning-wrap" id="planning"></div>
+        </article>
+        <div class="legend" id="planningLegend"></div>
+      </section>
+
+      <!-- ========== 5d. Membres ========== -->
+      <section class="view" id="view-membres" hidden>
+        <div class="toolbar">
+          <label class="select-wrap">
+            <span class="sr-only">Filtrer par formule</span>
+            <select id="formuleFilter">
+              <option value="">Toutes les formules</option>
+              <option>Découverte</option>
+              <option>Pack 10</option>
+              <option>Illimité</option>
+            </select>
+          </label>
+          <span class="toolbar-count" id="membresCount"></span>
+        </div>
+        <article class="card card-flush">
+          <div id="membresList"></div>
+        </article>
+      </section>
+
+      <!-- ========== 5e. Paiements ========== -->
+      <section class="view" id="view-paiements" hidden>
+        <div class="kpis kpis-2" id="kpisPaiements"></div>
+        <article class="card card-flush">
+          <div id="paiementsList"></div>
+        </article>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- ---------- Tiroir de détail ---------- -->
+  <div class="drawer-overlay" id="drawerOverlay"></div>
+  <aside class="drawer" id="drawer" aria-hidden="true" aria-label="Détail de la réservation">
+    <div class="drawer-inner" id="drawerInner"></div>
+  </aside>
+
+  <!-- ---------- Notifications ---------- -->
+  <div class="toasts" id="toasts" aria-live="polite" aria-atomic="false"></div>
+
+</div>
+
+<script src="js/data.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
