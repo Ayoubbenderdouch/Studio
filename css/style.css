@@ -42,7 +42,9 @@ body{
   font-weight:300;
   font-size:1.02rem;
   line-height:1.74;
-  overflow-x:hidden;
+  /* clip et non hidden : « hidden » ferait du body un conteneur de
+     défilement et casserait position:sticky de la barre sur iOS. */
+  overflow-x:clip;
   -webkit-font-smoothing:antialiased;
 }
 

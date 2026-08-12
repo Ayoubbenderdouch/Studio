@@ -44,7 +44,10 @@ body{
   background:var(--creme);color:var(--ink);
   font-family:var(--f-body);font-weight:300;font-size:.97rem;line-height:1.6;
   -webkit-font-smoothing:antialiased;
-  overflow-x:hidden;
+  /* clip et non hidden : « hidden » fait du body un conteneur de
+     défilement, ce qui casse position:sticky de la barre sur certaines
+     versions d'iOS. « clip » bloque le débordement sans cet effet. */
+  overflow-x:clip;
 }
 
 :focus-visible{outline:2px solid var(--rose);outline-offset:3px;border-radius:6px}
@@ -413,6 +416,15 @@ body{
 .toolbar-count{font-size:.85rem;color:rgba(46,17,20,.5)}
 
 /* ---------- 12. Tableaux ---------- */
+/* La carte a overflow:hidden pour ses coins arrondis : sans conteneur
+   défilant, la colonne Actions se retrouvait coupée entre 1024 et 1400 px
+   et le bouton « Annuler » devenait inatteignable. */
+#reservationsList,#membresList,#paiementsList{overflow-x:auto;-webkit-overflow-scrolling:touch}
+@media (min-width:681px){
+  .tbl{min-width:880px}
+  #reservationsList .tbl{min-width:1130px}
+}
+
 .tbl{width:100%;font-size:.9rem}
 .tbl th{
   text-align:left;font-weight:500;font-size:.71rem;text-transform:uppercase;
@@ -654,11 +666,21 @@ tr.flash{animation:flashRow 2s var(--ease)}
   .sidebar-overlay.open{opacity:1;visibility:visible;transition-delay:0s}
 
   .burger{display:block}
-  .page-title{font-size:1.15rem}
   .today{display:none}
-  .btn-sim{font-size:0;padding:11px 14px;gap:0}
+
+  /* Le champ de recherche se retrouvait écrasé en pastille à côté du titre :
+     on passe la barre sur deux lignes — burger + titre + actions, puis la
+     recherche sur toute la largeur. display:contents fait des enfants de
+     .topbar-tools des enfants directs de la barre, pour pouvoir les ordonner. */
+  /* min-height:0 : deux lignes collées en haut ne doivent pas manger
+     un cinquième de l'écran sur un téléphone */
+  .topbar{flex-wrap:wrap;gap:9px;min-height:0;padding:10px 16px}
+  .topbar-tools{display:contents}
+  .page-title{font-size:1.15rem;flex:1;min-width:0;margin-right:auto}
+  .btn-sim{order:2;font-size:0;padding:11px 14px;gap:0;flex:none}
   .btn-sim span{font-size:1.15rem}
-  .search{max-width:none}
+  .bell{order:3}
+  .search{order:4;flex:0 0 100%;width:100%;max-width:none}
 
   .kpis{grid-template-columns:repeat(2,1fr);gap:12px}
   .kpi{padding:16px 16px}
